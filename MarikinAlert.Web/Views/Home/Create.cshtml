@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "Report Emergency";
+}
+
+<style>
+    /* Force Autofill to match our Dark Theme */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active {
+        /* This hack forces the background to be dark slate instead of white */
+        -webkit-box-shadow: 0 0 0 30px #1e293b inset !important;
+        -webkit-text-fill-color: white !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+</style>
+
+<div class="flex flex-col gap-6 animate-fade-in-up mt-2">
+
+    @if (ViewBag.Success == true)
+    {
+        <section class="text-center py-10 animate-fade-in">
+            <div class="mb-8 inline-flex items-center justify-center w-24 h-24 bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20">
+                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h2 class="text-4xl font-black text-white mb-4">Transmission Successful</h2>
+            <p class="text-slate-400 text-lg mb-10 max-w-sm mx-auto">Your report has been triaged and pushed to the command center. Stay safe.</p>
+            
+            <a href="/" class="text-emerald-500 font-bold border-b border-emerald-500/30 hover:border-emerald-500 transition">
+                Submit Another Report
+            </a>
+        </section>
+    }
+    else
+    {
+        <div>
+            <h1 class="text-3xl font-black text-white leading-none">Emergency<br><span class="text-emerald-500">Assistance</span></h1>
+            <p class="text-slate-400 text-sm mt-2">Describe the situation. AI will auto-triage.</p>
+        </div>
+
+        <form asp-controller="Home" asp-action="Analyze" method="post" class="space-y-4">
+
+            <div class="bg-white/5 p-4 rounded-2xl border border-white/5 space-y-3">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase">Your Name (Optional)</label>
+                    <input name="senderName" type="text" class="w-full bg-transparent text-white font-bold outline-none placeholder:text-slate-600" placeholder="Juan Dela Cruz">
+                </div>
+                <div class="h-px bg-white/5"></div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase">Callback Number</label>
+                    <input name="contactNumber" type="tel" class="w-full bg-transparent text-white font-bold outline-none placeholder:text-slate-600" placeholder="09XX-XXX-XXXX">
+                </div>
+            </div>
+
+            <div class="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M128 16a88.1 88.1 0 0 0-88 88c0 75.3 80 132.17 83.41 134.55a8 8 0 0 0 9.18 0C136 236.17 216 179.3 216 104a88.1 88.1 0 0 0-88-88Zm0 56a32 32 0 1 1-32 32a32 32 0 0 1 32-32Z"/></svg>
+                </div>
+                <div class="flex-1">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase">Current Location</label>
+                    <input name="location" type="text" class="w-full bg-transparent text-white font-bold outline-none text-sm" placeholder="Auto-detecting..." value="Brgy. Sto Niño, Marikina">
+                </div>
+            </div>
+
+            <div class="relative">
+                <textarea name="rawMessage" rows="5" class="w-full bg-slate-900 border-2 border-emerald-500/50 p-5 rounded-3xl text-lg text-white placeholder:text-slate-600 outline-none focus:border-emerald-500 focus:shadow-[0_0_20px_rgba(16,185,129,0.2)] transition" placeholder="Tulong! May nasusunog na bahay dito sa kanto..."></textarea>
+                <div class="absolute bottom-4 right-4 text-emerald-500 opacity-50">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M128 176a48.05 48.05 0 0 0 48-48V64a48 48 0 0 0-96 0v64a48.05 48.05 0 0 0 48 48Z"/></svg>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-500 text-[#020617] font-black text-xl py-5 rounded-2xl uppercase tracking-wider shadow-xl shadow-emerald-500/20 active:scale-95 transition-transform">
+                Request Help
+            </button>
+
+            <p class="text-[10px] text-center text-slate-600 font-bold">
+                By sending, you agree to share your location with Marikina Rescue.
+            </p>
+        </form>
+    }
+
+</div>

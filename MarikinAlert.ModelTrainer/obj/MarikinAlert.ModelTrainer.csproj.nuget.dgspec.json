@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/andreisteven/MarikinAlert.Web/MarikinAlert.ModelTrainer/MarikinAlert.ModelTrainer.csproj": {}
+  },
+  "projects": {
+    "/Users/andreisteven/MarikinAlert.Web/MarikinAlert.ModelTrainer/MarikinAlert.ModelTrainer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/andreisteven/MarikinAlert.Web/MarikinAlert.ModelTrainer/MarikinAlert.ModelTrainer.csproj",
+        "projectName": "MarikinAlert.ModelTrainer",
+        "projectPath": "/Users/andreisteven/MarikinAlert.Web/MarikinAlert.ModelTrainer/MarikinAlert.ModelTrainer.csproj",
+        "packagesPath": "/Users/andreisteven/.nuget/packages/",
+        "outputPath": "/Users/andreisteven/MarikinAlert.Web/MarikinAlert.ModelTrainer/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/andreisteven/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.ML": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.414/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

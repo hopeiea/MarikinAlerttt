@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Command Login";
+}
+
+<div class="flex items-center justify-center min-h-[60vh]">
+    <div class="w-full max-w-md p-8 space-y-8 bg-slate-900/50 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-md">
+        
+        <div class="text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500 text-slate-900 font-black text-xl mb-4 shadow-lg shadow-emerald-500/20">M</div>
+            <h2 class="text-2xl font-black text-white">Command Access</h2>
+            <p class="text-slate-400 text-sm mt-1">Authorized Personnel Only</p>
+        </div>
+
+        <form asp-action="Login" method="post" class="space-y-6">
+            @if (ViewBag.Error != null)
+            {
+                <div class="bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold p-3 rounded-lg text-center">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Username</label>
+                <input name="username" type="text" class="w-full bg-slate-950 border border-white/10 p-3 rounded-xl text-white outline-none focus:border-emerald-500 transition">
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
+                <input name="password" type="password" class="w-full bg-slate-950 border border-white/10 p-3 rounded-xl text-white outline-none focus:border-emerald-500 transition">
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-3 rounded-xl uppercase tracking-widest transition">
+                Authenticate
+            </button>
+        </form>
+    </div>
+</div>

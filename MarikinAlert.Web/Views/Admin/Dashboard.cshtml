@@ -1,0 +1,76 @@
+@using MarikinAlert.Web.Models
+@model IEnumerable<DisasterReport>
+
+@{
+    ViewData["Title"] = "Live Feed";
+    var criticalCount = Model.Count(r => r.Priority == ReportPriority.Critical);
+}
+
+<div class="space-y-6 mt-2 animate-fade-in-up">
+    <div class="flex justify-between items-end">
+        <div>
+            <h2 class="text-xl font-bold text-white">Live Incidents</h2>
+            <p class="text-xs text-slate-400">Marikina Central Cluster</p>
+        </div>
+        
+        @if (criticalCount > 0)
+        {
+            <div class="bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full flex items-center gap-2">
+                <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                <span class="text-[10px] font-black text-red-500 uppercase">@criticalCount Critical</span>
+            </div>
+        }
+        else
+        {
+             <div class="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                <span class="text-[10px] font-black text-emerald-500 uppercase">All Systems Normal</span>
+            </div>
+        }
+    </div>
+
+    <div class="space-y-4">
+        @if (!Model.Any())
+        {
+            <div class="text-center py-10 opacity-50">
+                <p class="text-sm text-slate-500">No active incidents reported.</p>
+            </div>
+        }
+
+        @foreach (var item in Model)
+        {
+            // Determine Color Scheme based on Priority
+            string borderColor = item.Priority == ReportPriority.Critical ? "border-red-500" : 
+                                 item.Priority == ReportPriority.High ? "border-orange-500" : "border-emerald-500";
+            
+            string badgeColor = item.Priority == ReportPriority.Critical ? "bg-red-500 text-white" : 
+                                item.Priority == ReportPriority.High ? "bg-orange-500 text-white" : "bg-emerald-500 text-slate-900";
+
+            // Calculate "Time Ago"
+            var timeSpan = DateTime.Now - item.Timestamp;
+            string timeAgo = timeSpan.TotalMinutes < 1 ? "Just now" : 
+                             timeSpan.TotalMinutes < 60 ? $"{(int)timeSpan.TotalMinutes}m ago" : 
+                             $"{(int)timeSpan.TotalHours}h ago";
+
+            <a href="@Url.Action("Details", "Admin", new { id = item.Id })" 
+               class="block bg-[#0f172a] border-l-4 @borderColor p-5 rounded-xl border border-white/5 hover:bg-white/5 transition no-underline group">
+                
+                <div class="flex justify-between items-start mb-2">
+                    <span class="@badgeColor text-[10px] font-black px-2 py-0.5 rounded uppercase">@item.Category</span>
+                    <span class="text-[10px] text-slate-500 font-mono">@timeAgo</span>
+                </div>
+                
+                <h3 class="font-bold text-lg leading-tight mb-1 text-white group-hover:text-emerald-400 transition-colors">
+                    @item.Priority Priority
+                </h3>
+                
+                <p class="text-sm text-slate-400 mb-3 line-clamp-2">"@item.RawMessage"</p>
+                
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" class="text-emerald-500"><path fill="currentColor" d="M128 16a88.1 88.1 0 0 0-88 88c0 75.3 80 132.17 83.41 134.55a8 8 0 0 0 9.18 0C136 236.17 216 179.3 216 104a88.1 88.1 0 0 0-88-88Zm0 56a32 32 0 1 1-32 32a32 32 0 0 1 32-32Z"/></svg>
+                    @item.Location
+                </div>
+            </a>
+        }
+    </div>
+</div>
