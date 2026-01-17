@@ -94,7 +94,7 @@ namespace MarikinAlert.Web.Controllers
         // =========================================================
 
         [HttpGet]
-        public async Task<IActionResult> Dashboard(string categoryFilter = "All")
+        public async Task<IActionResult> Dashboard(string categoryFilter = "All", string statusFilter = "All")
         {
             if (!IsAuthenticated())
             {
@@ -115,6 +115,15 @@ namespace MarikinAlert.Web.Controllers
                 }
             }
 
+            // Apply status filter if specified
+            if (!string.IsNullOrEmpty(statusFilter) && statusFilter != "All")
+            {
+                if (Enum.TryParse<ReportStatus>(statusFilter, true, out var status))
+                {
+                    query = query.Where(r => r.Status == status);
+                }
+            }
+
             var reports = await query.ToListAsync();
 
             // Sort in memory: by Category name (alphabetically), then Priority, then Timestamp
@@ -125,6 +134,7 @@ namespace MarikinAlert.Web.Controllers
                 .ToList();
 
             ViewBag.CategoryFilter = categoryFilter;
+            ViewBag.StatusFilter = statusFilter;
             return View(sortedReports);
         }
 

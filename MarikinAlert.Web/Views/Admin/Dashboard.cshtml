@@ -24,9 +24,9 @@
         <div class="flex items-center gap-3">
             <!-- Category Filter Dropdown -->
             <form method="get" action="/Admin/Dashboard" id="categoryFilterForm" class="flex items-center gap-2">
-                <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Filter:</label>
+                <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Category:</label>
                 <select name="categoryFilter" 
-                        onchange="document.getElementById('categoryFilterForm').submit();" 
+                        onchange="updateFilterForm();" 
                         class="bg-slate-800 text-[11px] text-white font-bold border border-slate-600 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider">
                     <option value="All" selected="@(ViewBag.CategoryFilter == null || ViewBag.CategoryFilter == "All")">All Categories</option>
                     <option value="Fire" selected="@(ViewBag.CategoryFilter == "Fire")">Fire</option>
@@ -35,6 +35,23 @@
                     <option value="Logistics" selected="@(ViewBag.CategoryFilter == "Logistics")">Logistics</option>
                     <option value="Infrastructure" selected="@(ViewBag.CategoryFilter == "Infrastructure")">Infrastructure</option>
                 </select>
+                <input type="hidden" name="statusFilter" id="statusFilterInput" value="@(ViewBag.StatusFilter ?? "All")" />
+            </form>
+
+            <!-- Status Filter Dropdown -->
+            <form method="get" action="/Admin/Dashboard" id="statusFilterForm" class="flex items-center gap-2">
+                <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status:</label>
+                <select name="statusFilter" 
+                        onchange="updateFilterForm();" 
+                        class="bg-slate-800 text-[11px] text-white font-bold border border-slate-600 rounded-lg px-3 py-1.5 outline-none focus:border-emerald-500 cursor-pointer uppercase tracking-wider">
+                    <option value="All" selected="@(ViewBag.StatusFilter == null || ViewBag.StatusFilter == "All")">All Status</option>
+                    <option value="Pending" selected="@(ViewBag.StatusFilter == "Pending")">Pending</option>
+                    <option value="Active" selected="@(ViewBag.StatusFilter == "Active")">Active</option>
+                    <option value="OnGoing" selected="@(ViewBag.StatusFilter == "OnGoing")">On Going</option>
+                    <option value="Resolved" selected="@(ViewBag.StatusFilter == "Resolved")">Resolved</option>
+                    <option value="FalseAlarm" selected="@(ViewBag.StatusFilter == "FalseAlarm")">False Alarm</option>
+                </select>
+                <input type="hidden" name="categoryFilter" id="categoryFilterInput" value="@(ViewBag.CategoryFilter ?? "All")" />
             </form>
 
             @if (criticalCount > 0)
@@ -135,11 +152,24 @@
                         </span>
                     </div>
                     
-                    <button onclick="openRelayModal(@report.Id, '@report.Category')" 
-                            class="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-[10px] font-bold px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors border border-blue-500/20">
-                        <i class="ph-fill ph-paper-plane-tilt"></i>
-                        Relay to Agency
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openRelayModal(@report.Id, '@report.Category')" 
+                                class="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-[10px] font-bold px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors border border-blue-500/20">
+                            <i class="ph-fill ph-paper-plane-tilt"></i>
+                            Relay to Agency
+                        </button>
+                        
+                        <form asp-action="MarkAsNoise" method="post" style="display: inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@report.Id" />
+                            <button type="submit" 
+                                    onclick="return confirm('Are you sure you want to archive this report as noise?');"
+                                    class="bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 text-[10px] font-bold px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors border border-yellow-500/20">
+                                <i class="ph-fill ph-x-circle"></i>
+                                Archive as Noise
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 }
@@ -312,4 +342,17 @@
                 setTimeout(() => el.remove(), 300);
             });
         }, 5000);
+
+        // Helper function to update both filter forms when one changes
+        function updateFilterForm() {
+            const categoryValue = document.querySelector('[name="categoryFilter"]').value;
+            const statusValue = document.querySelector('[name="statusFilter"]').value;
+            
+            // Update hidden inputs in both forms
+            document.getElementById('categoryFilterInput').value = categoryValue;
+            document.getElementById('statusFilterInput').value = statusValue;
+            
+            // Submit the category form (it has the action URL)
+            document.getElementById('categoryFilterForm').submit();
+        }
     </script>
