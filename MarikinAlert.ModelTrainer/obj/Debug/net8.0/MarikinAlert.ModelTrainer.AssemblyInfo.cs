@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MarikinAlert.ModelTrainer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+854d73ee774ac3f4a7fb59d168f6cd3c54ba89b1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+996ab0f6dae6a8447ab4e17e77d4f9af6e96d93e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MarikinAlert.ModelTrainer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MarikinAlert.ModelTrainer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

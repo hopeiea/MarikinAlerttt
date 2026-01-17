@@ -25,13 +25,22 @@ namespace MarikinAlert.Web.Data // <--- Fixed Namespace
 
         public async Task<IEnumerable<DisasterReport>> GetAllAsync()
         {
-            return await _context.Reports.ToListAsync();
+            return await _context.Reports
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        // Fixed: Changed Guid to int to match your Model
         public async Task<DisasterReport?> GetByIdAsync(int id)
         {
+            // Use FindAsync for tracking (needed for updates)
             return await _context.Reports.FindAsync(id);
+        }
+
+        public async Task<DisasterReport?> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Reports
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
     }
 }

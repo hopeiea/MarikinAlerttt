@@ -1,5 +1,6 @@
 ﻿@using MarikinAlert.Web.Models
 @model IEnumerable<DisasterReport>
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 
 @{
     ViewData["Title"] = "Command Center";
@@ -7,22 +8,43 @@
 
     // Stats Logic
     var criticalCount = Model.Count(r => r.Priority == ReportPriority.Critical);
+    
+    // Get anti-forgery token for JavaScript
+    var tokenSet = Antiforgery.GetAndStoreTokens(Context);
+    var requestToken = tokenSet.RequestToken;
 }
 
 <div class="space-y-6 mt-2">
-    <div class="flex justify-between items-end">
+    <div class="flex justify-between items-end gap-4">
         <div>
             <h2 class="text-xl font-bold text-white">Live Incidents</h2>
             <p class="text-xs text-slate-400">Marikina Central Cluster • Admin View</p>
         </div>
 
-        @if (criticalCount > 0)
-        {
-            <div class="bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full flex items-center gap-2">
-                <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                <span class="text-[10px] font-black text-red-500 uppercase">@criticalCount Critical</span>
-            </div>
-        }
+        <div class="flex items-center gap-3">
+            <!-- Category Filter Dropdown -->
+            <form method="get" action="/Admin/Dashboard" id="categoryFilterForm" class="flex items-center gap-2">
+                <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Filter:</label>
+                <select name="categoryFilter" 
+                        onchange="document.getElementById('categoryFilterForm').submit();" 
+                        class="bg-slate-800 text-[11px] text-white font-bold border border-slate-600 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider">
+                    <option value="All" selected="@(ViewBag.CategoryFilter == null || ViewBag.CategoryFilter == "All")">All Categories</option>
+                    <option value="Fire" selected="@(ViewBag.CategoryFilter == "Fire")">Fire</option>
+                    <option value="BuildingCollapse" selected="@(ViewBag.CategoryFilter == "BuildingCollapse")">Building Collapse</option>
+                    <option value="Medical" selected="@(ViewBag.CategoryFilter == "Medical")">Medical</option>
+                    <option value="Logistics" selected="@(ViewBag.CategoryFilter == "Logistics")">Logistics</option>
+                    <option value="Infrastructure" selected="@(ViewBag.CategoryFilter == "Infrastructure")">Infrastructure</option>
+                </select>
+            </form>
+
+            @if (criticalCount > 0)
+            {
+                <div class="bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full flex items-center gap-2">
+                    <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    <span class="text-[10px] font-black text-red-500 uppercase">@criticalCount Critical</span>
+                </div>
+            }
+        </div>
     </div>
 
     <div class="space-y-4">
@@ -34,7 +56,7 @@
             </div>
 }
 
-@foreach (var report in Model.OrderByDescending(x => x.Timestamp))
+@foreach (var report in Model)
 {
             <div class="block bg-[#0f172a] border-l-4 @(report.Priority == ReportPriority.Critical ? "border-red-500" : "border-emerald-500") p-5 rounded-xl transition-all hover:bg-slate-900">
 
@@ -46,6 +68,7 @@
                         </span>
 
                         <form asp-action="UpdateStatus" method="post" class="flex items-center gap-2">
+                            @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@report.Id" />
                             <select name="status" onchange="this.form.submit()" class="bg-slate-800 text-[10px] text-white font-bold border border-slate-600 rounded px-2 py-1 outline-none focus:border-emerald-500 cursor-pointer uppercase">
                                 <option value="Active" selected="@(report.Status == ReportStatus.Active)">Active</option>
@@ -54,37 +77,44 @@
                             </select>
                         </form>
 
-                        <form asp-action="UpdateCategory" method="post" class="flex items-center gap-2 border-l border-white/10 pl-2">
-                            <input type="hidden" name="id" value="@report.Id" />
-                            <select name="category" onchange="this.form.submit()" class="bg-slate-800 text-[10px] text-slate-300 font-bold border border-slate-600 rounded px-2 py-1 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider">
-                                <option value="Fire" selected="@(report.Category == ReportCategory.Fire)">Fire</option>
-                                <option value="BuildingCollapse" selected="@(report.Category == ReportCategory.BuildingCollapse)">Collapse</option>
-                                <option value="Medical" selected="@(report.Category == ReportCategory.Medical)">Medical</option>
-                                <option value="Logistics" selected="@(report.Category == ReportCategory.Logistics)">Logistics</option>
-                                <option value="Infrastructure" selected="@(report.Category == ReportCategory.Infrastructure)">Infra</option>
-                                <option value="Noise" selected="@(report.Category == ReportCategory.Noise)">Noise</option>
-                            </select>
-
+                        <div class="flex items-center gap-2 border-l border-white/10 pl-2">
                             @if (report.Category == ReportCategory.Fire)
                             {
-                                <i class="ph-fill ph-fire text-orange-500"></i>
+                                <span class="bg-orange-500/20 text-orange-500 text-[10px] font-bold px-2 py-1 rounded uppercase flex items-center gap-1 border border-orange-500/30">
+                                    <i class="ph-fill ph-fire"></i> Fire
+                                </span>
                             }
                             else if (report.Category == ReportCategory.Medical)
                             {
-
-                                <i class="ph-fill ph-first-aid text-red-500"></i>
+                                <span class="bg-red-500/20 text-red-500 text-[10px] font-bold px-2 py-1 rounded uppercase flex items-center gap-1 border border-red-500/30">
+                                    <i class="ph-fill ph-first-aid"></i> Medical
+                                </span>
                             }
                             else if (report.Category == ReportCategory.BuildingCollapse)
                             {
-
-                                <i class="ph-fill ph-house-line text-yellow-500"></i>
+                                <span class="bg-yellow-500/20 text-yellow-500 text-[10px] font-bold px-2 py-1 rounded uppercase flex items-center gap-1 border border-yellow-500/30">
+                                    <i class="ph-fill ph-house-line"></i> Collapse
+                                </span>
+                            }
+                            else if (report.Category == ReportCategory.Logistics)
+                            {
+                                <span class="bg-purple-500/20 text-purple-500 text-[10px] font-bold px-2 py-1 rounded uppercase flex items-center gap-1 border border-purple-500/30">
+                                    <i class="ph-fill ph-truck"></i> Logistics
+                                </span>
+                            }
+                            else if (report.Category == ReportCategory.Infrastructure)
+                            {
+                                <span class="bg-blue-500/20 text-blue-500 text-[10px] font-bold px-2 py-1 rounded uppercase flex items-center gap-1 border border-blue-500/30">
+                                    <i class="ph-fill ph-buildings"></i> Infrastructure
+                                </span>
                             }
                             else
                             {
-
-                                <i class="ph-fill ph-info text-blue-500"></i>
+                                <span class="bg-slate-500/20 text-slate-400 text-[10px] font-bold px-2 py-1 rounded uppercase flex items-center gap-1 border border-slate-500/30">
+                                    <i class="ph-fill ph-info"></i> @report.Category
+                                </span>
                             }
-                        </form>
+                        </div>
                     </div>
 
                     <span class="text-[10px] text-slate-500 font-mono pt-1">
@@ -95,13 +125,191 @@
                 <h3 class="font-bold text-lg text-white leading-tight mb-1">@report.Location</h3>
                 <p class="text-sm text-slate-400 mb-3 line-clamp-2">"@report.RawMessage"</p>
 
-                <div class="flex items-center gap-4 text-xs font-bold text-slate-500 border-t border-white/5 pt-3 mt-3">
-                    <span class="flex items-center gap-1">
-                        <i class="ph-fill ph-user"></i> @report.SenderName
-                    </span>
-                    <span class="flex items-center gap-1">
-                        <i class="ph-fill ph-phone"></i> @report.ContactNumber
-                    </span>
+                <div class="flex items-center justify-between border-t border-white/5 pt-3 mt-3">
+                    <div class="flex items-center gap-4 text-xs font-bold text-slate-500">
+                        <span class="flex items-center gap-1">
+                            <i class="ph-fill ph-user"></i> @report.SenderName
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <i class="ph-fill ph-phone"></i> @report.ContactNumber
+                        </span>
+                    </div>
+                    
+                    <button onclick="openRelayModal(@report.Id, '@report.Category')" 
+                            class="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-[10px] font-bold px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors border border-blue-500/20">
+                        <i class="ph-fill ph-paper-plane-tilt"></i>
+                        Relay to Agency
+                    </button>
                 </div>
             </div>
 }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="fixed top-4 right-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-pulse">
+            <i class="ph-fill ph-check-circle"></i>
+            <span class="text-sm font-bold">@TempData["Success"]</span>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="fixed top-4 right-4 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-pulse">
+            <i class="ph-fill ph-warning-circle"></i>
+            <span class="text-sm font-bold">@TempData["Error"]</span>
+        </div>
+    }
+
+    <!-- Relay Modal -->
+    <div id="relayModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center">
+        <div class="bg-[#1e293b] border border-slate-700 rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="ph-fill ph-paper-plane-tilt text-blue-500"></i>
+                    Relay Report to Government Agency
+                </h3>
+                <button onclick="closeRelayModal()" class="text-slate-400 hover:text-white">
+                    <i class="ph-fill ph-x text-xl"></i>
+                </button>
+            </div>
+
+            <div id="relayModalContent" class="space-y-4">
+                <div class="text-center py-8">
+                    <div class="animate-spin text-blue-500 text-2xl mb-2">
+                        <i class="ph-fill ph-circle-notch"></i>
+                    </div>
+                    <p class="text-slate-400 text-sm">Loading agencies...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+        let currentReportId = null;
+        const antiForgeryToken = '@Html.Raw(requestToken)';
+
+        async function openRelayModal(reportId, category) {
+            currentReportId = reportId;
+            const modal = document.getElementById('relayModal');
+            const content = document.getElementById('relayModalContent');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Show loading
+            content.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin text-blue-500 text-2xl mb-2">
+                        <i class="ph-fill ph-circle-notch"></i>
+                    </div>
+                    <p class="text-slate-400 text-sm">Loading agencies...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`/Admin/GetAgenciesForReport?reportId=${reportId}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Check if there's an error in the response
+                if (data.error) {
+                    throw new Error(data.message || data.error);
+                }
+                
+                if (data.agencies && data.agencies.length > 0) {
+                    let html = `
+                        <div class="mb-4 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                            <p class="text-xs text-slate-400 mb-1">Report Category: <span class="text-white font-bold uppercase">${data.reportCategory}</span></p>
+                            <p class="text-xs text-slate-500">Select an agency to relay this incident</p>
+                        </div>
+                        <div class="space-y-2 max-h-96 overflow-y-auto">
+                    `;
+
+                    data.agencies.forEach(agency => {
+                        html += `
+                            <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-4 hover:bg-slate-800 transition-colors">
+                                <form method="post" action="/Admin/RelayToAgency" class="space-y-3">
+                                    <input type="hidden" name="__RequestVerificationToken" value="${antiForgeryToken}" />
+                                    <input type="hidden" name="reportId" value="${reportId}" />
+                                    <input type="hidden" name="agencyId" value="${agency.id}" />
+                                    
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div class="flex-1">
+                                            <div class="flex items-center gap-2 mb-1">
+                                                <h4 class="font-bold text-white text-sm">${agency.name}</h4>
+                                                <span class="bg-blue-500/20 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase">${agency.acronym}</span>
+                                            </div>
+                                            <p class="text-xs text-slate-400 mb-2">${agency.description || ''}</p>
+                                            <div class="flex items-center gap-4 text-xs text-slate-500">
+                                                ${agency.emergencyHotline ? `<span class="flex items-center gap-1"><i class="ph-fill ph-phone"></i> ${agency.emergencyHotline}</span>` : ''}
+                                                ${agency.email ? `<span class="flex items-center gap-1"><i class="ph-fill ph-envelope"></i> ${agency.email}</span>` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <textarea name="notes" 
+                                                  placeholder="Additional notes (optional)" 
+                                                  class="w-full bg-slate-900/50 border border-slate-600 text-white text-xs rounded-lg p-2 outline-none focus:border-blue-500 resize-none" 
+                                                  rows="2"></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" 
+                                            class="w-full mt-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                        <i class="ph-fill ph-paper-plane-tilt"></i>
+                                        Relay to ${agency.acronym}
+                                    </button>
+                                </form>
+                            </div>
+                        `;
+                    });
+
+                    html += `</div>`;
+                    content.innerHTML = html;
+                } else {
+                    content.innerHTML = `
+                        <div class="text-center py-8 text-slate-400">
+                            <i class="ph-fill ph-warning text-3xl mb-2 text-yellow-500"></i>
+                            <p class="text-sm">No agencies available for this category</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading agencies:', error);
+                content.innerHTML = `
+                    <div class="text-center py-8 text-red-400">
+                        <i class="ph-fill ph-warning-circle text-3xl mb-2"></i>
+                        <p class="text-sm font-bold mb-1">Error loading agencies</p>
+                        <p class="text-xs text-slate-500">${error.message || 'Please try again'}</p>
+                        <p class="text-xs text-slate-600 mt-2">Make sure the database migration has been run to create the GovernmentAgencies table.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function closeRelayModal() {
+            const modal = document.getElementById('relayModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentReportId = null;
+        }
+
+        // Close modal on outside click
+        document.getElementById('relayModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRelayModal();
+            }
+        });
+
+        // Auto-hide success/error messages
+        setTimeout(() => {
+            document.querySelectorAll('[class*="fixed top-4"]').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 300);
+            });
+        }, 5000);
+    </script>

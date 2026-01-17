@@ -38,6 +38,7 @@
         }
 
         <form asp-action="Login" method="post" class="space-y-5">
+            @Html.AntiForgeryToken()
 
             <div class="space-y-1">
                 <label class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Officer ID / Username</label>

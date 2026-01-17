@@ -303,10 +303,10 @@ C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\stati
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\MarikinA.C2845E50.Up2Date
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\MarikinAlert.Web.dll
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\refint\MarikinAlert.Web.dll
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\MarikinAlert.Web.pdb
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\MarikinAlert.Web.genruntimeconfig.cache
 C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\ref\MarikinAlert.Web.dll
+C:\Users\jajai\Source\Repos\MarikinAlert\MarikinAlert.Web\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

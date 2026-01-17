@@ -10,26 +10,46 @@ builder.Services.AddControllersWithViews();
 // =================================================================
 // 1. DATABASE CONNECTION (SQLite - Presentation Safe)
 // =================================================================
-
-// This looks for "Data Source=marikina.db" in your appsettings
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? "Data Source=marikina.db"; // Fallback if appsettings is missing
+    ?? "Data Source=marikina.db";
 
-// CHANGED: UseSqlite instead of UseSqlServer
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(connectionString)); 
+    options.UseSqlite(connectionString)
+           .EnableSensitiveDataLogging(builder.Environment.IsDevelopment())); 
 
 // =================================================================
-
+// 2. REPOSITORY SERVICES
+// =================================================================
 builder.Services.AddScoped<IDisasterRepository, DisasterRepository>();
 
+// =================================================================
+// 3. CACHING & SESSION
+// =================================================================
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+});
+
+// =================================================================
+// 4. AUTHENTICATION
+// =================================================================
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Admin/Login";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     });
 
+// =================================================================
+// 5. APPLICATION SERVICES
+// =================================================================
 builder.Services.AddSingleton<TaglishTextScanner>();
 builder.Services.AddScoped<ITextScanner>(provider =>
 {
@@ -37,27 +57,22 @@ builder.Services.AddScoped<ITextScanner>(provider =>
     return new MLTextScanner(fallback); 
 });
 
-builder.Services.AddScoped<IDisasterTriageService, TriageService>();
-
+builder.Services.AddSingleton<IDisasterTriageService, AiTriageService>();
 builder.Services.AddHttpContextAccessor();
-
-// 1. Add Memory Cache (Session requires a place to store data)
-builder.Services.AddDistributedMemoryCache();
-
-// 2. Add Session Service
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Log out after 30 mins inactive
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
 
 var app = builder.Build();
 
+// =================================================================
+// MIDDLEWARE PIPELINE (Order matters!)
+// =================================================================
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+}
+else
+{
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
@@ -65,22 +80,22 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); 
-app.UseAuthorization();
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-// ---> ADD THIS LINE HERE <---
 app.UseSession();
-// ----------------------------
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Reports}/{action=Create}/{id?}");
+
+// =================================================================
+// SEED DATA
+// =================================================================
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    DbInitializer.Initialize(context);
+}
 
 app.Run();
