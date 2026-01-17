@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MarikinAlert.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bef37dbfe2b8c8949b6ec8270db66bc42ac4d7e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30940e0093b87c1ecb837f5802db2a162b7b1f21")]
 [assembly: System.Reflection.AssemblyProductAttribute("MarikinAlert.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MarikinAlert.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

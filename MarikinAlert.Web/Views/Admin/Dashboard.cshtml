@@ -22,36 +22,37 @@
         </div>
 
         <div class="flex items-center gap-3">
-            <!-- Category Filter Dropdown -->
-            <form method="get" action="/Admin/Dashboard" id="categoryFilterForm" class="flex items-center gap-2">
-                <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Category:</label>
-                <select name="categoryFilter" 
-                        onchange="updateFilterForm();" 
-                        class="bg-slate-800 text-[11px] text-white font-bold border border-slate-600 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider">
-                    <option value="All" selected="@(ViewBag.CategoryFilter == null || ViewBag.CategoryFilter == "All")">All Categories</option>
-                    <option value="Fire" selected="@(ViewBag.CategoryFilter == "Fire")">Fire</option>
-                    <option value="BuildingCollapse" selected="@(ViewBag.CategoryFilter == "BuildingCollapse")">Building Collapse</option>
-                    <option value="Medical" selected="@(ViewBag.CategoryFilter == "Medical")">Medical</option>
-                    <option value="Logistics" selected="@(ViewBag.CategoryFilter == "Logistics")">Logistics</option>
-                    <option value="Infrastructure" selected="@(ViewBag.CategoryFilter == "Infrastructure")">Infrastructure</option>
-                </select>
-                <input type="hidden" name="statusFilter" id="statusFilterInput" value="@(ViewBag.StatusFilter ?? "All")" />
-            </form>
+            <!-- Combined Filter Form -->
+            <form method="get" action="/Admin/Dashboard" id="filterForm" class="flex items-center gap-3">
+                <!-- Category Filter Dropdown -->
+                <div class="flex items-center gap-2">
+                    <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Category:</label>
+                    <select name="categoryFilter" 
+                            onchange="document.getElementById('filterForm').submit();" 
+                            class="bg-slate-800 text-[11px] text-white font-bold border border-slate-600 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider">
+                        <option value="All" selected="@(ViewBag.CategoryFilter == null || ViewBag.CategoryFilter == "All")">All Categories</option>
+                        <option value="Fire" selected="@(ViewBag.CategoryFilter == "Fire")">Fire</option>
+                        <option value="BuildingCollapse" selected="@(ViewBag.CategoryFilter == "BuildingCollapse")">Building Collapse</option>
+                        <option value="Medical" selected="@(ViewBag.CategoryFilter == "Medical")">Medical</option>
+                        <option value="Logistics" selected="@(ViewBag.CategoryFilter == "Logistics")">Logistics</option>
+                        <option value="Infrastructure" selected="@(ViewBag.CategoryFilter == "Infrastructure")">Infrastructure</option>
+                    </select>
+                </div>
 
-            <!-- Status Filter Dropdown -->
-            <form method="get" action="/Admin/Dashboard" id="statusFilterForm" class="flex items-center gap-2">
-                <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status:</label>
-                <select name="statusFilter" 
-                        onchange="updateFilterForm();" 
-                        class="bg-slate-800 text-[11px] text-white font-bold border border-slate-600 rounded-lg px-3 py-1.5 outline-none focus:border-emerald-500 cursor-pointer uppercase tracking-wider">
-                    <option value="All" selected="@(ViewBag.StatusFilter == null || ViewBag.StatusFilter == "All")">All Status</option>
-                    <option value="Pending" selected="@(ViewBag.StatusFilter == "Pending")">Pending</option>
-                    <option value="Active" selected="@(ViewBag.StatusFilter == "Active")">Active</option>
-                    <option value="OnGoing" selected="@(ViewBag.StatusFilter == "OnGoing")">On Going</option>
-                    <option value="Resolved" selected="@(ViewBag.StatusFilter == "Resolved")">Resolved</option>
-                    <option value="FalseAlarm" selected="@(ViewBag.StatusFilter == "FalseAlarm")">False Alarm</option>
-                </select>
-                <input type="hidden" name="categoryFilter" id="categoryFilterInput" value="@(ViewBag.CategoryFilter ?? "All")" />
+                <!-- Status Filter Dropdown -->
+                <div class="flex items-center gap-2">
+                    <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status:</label>
+                    <select name="statusFilter" 
+                            onchange="document.getElementById('filterForm').submit();" 
+                            class="bg-slate-800 text-[11px] text-white font-bold border border-slate-600 rounded-lg px-3 py-1.5 outline-none focus:border-emerald-500 cursor-pointer uppercase tracking-wider">
+                        <option value="All" selected="@(ViewBag.StatusFilter == null || ViewBag.StatusFilter == "All")">All Status</option>
+                        <option value="Pending" selected="@(ViewBag.StatusFilter == "Pending")">Pending</option>
+                        <option value="Active" selected="@(ViewBag.StatusFilter == "Active")">Active</option>
+                        <option value="OnGoing" selected="@(ViewBag.StatusFilter == "OnGoing")">On Going</option>
+                        <option value="Resolved" selected="@(ViewBag.StatusFilter == "Resolved")">Resolved</option>
+                        <option value="FalseAlarm" selected="@(ViewBag.StatusFilter == "FalseAlarm")">False Alarm</option>
+                    </select>
+                </div>
             </form>
 
             @if (criticalCount > 0)
@@ -342,17 +343,4 @@
                 setTimeout(() => el.remove(), 300);
             });
         }, 5000);
-
-        // Helper function to update both filter forms when one changes
-        function updateFilterForm() {
-            const categoryValue = document.querySelector('[name="categoryFilter"]').value;
-            const statusValue = document.querySelector('[name="statusFilter"]').value;
-            
-            // Update hidden inputs in both forms
-            document.getElementById('categoryFilterInput').value = categoryValue;
-            document.getElementById('statusFilterInput').value = statusValue;
-            
-            // Submit the category form (it has the action URL)
-            document.getElementById('categoryFilterForm').submit();
-        }
     </script>
