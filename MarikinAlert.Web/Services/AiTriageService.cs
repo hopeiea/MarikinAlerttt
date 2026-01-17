@@ -89,7 +89,7 @@ namespace MarikinAlert.Web.Services
                 Location = location,
                 Category = finalCategory,
                 Priority = finalPriority,
-                Status = ReportStatus.Pending,
+                Status = ReportStatus.Active,
                 ConfidenceScore = 0.90
             };
 
