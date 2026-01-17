@@ -716,24 +716,31 @@
     ]
   },
   "packageFolders": {
-    "/Users/andreisteven/.nuget/packages/": {}
+    "C:\\Users\\jajai\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/andreisteven/MarikinAlert.Web/MarikinAlert.ModelTrainer/MarikinAlert.ModelTrainer.csproj",
+      "projectUniqueName": "C:\\Users\\jajai\\Source\\Repos\\MarikinAlert\\MarikinAlert.ModelTrainer\\MarikinAlert.ModelTrainer.csproj",
       "projectName": "MarikinAlert.ModelTrainer",
-      "projectPath": "/Users/andreisteven/MarikinAlert.Web/MarikinAlert.ModelTrainer/MarikinAlert.ModelTrainer.csproj",
-      "packagesPath": "/Users/andreisteven/.nuget/packages/",
-      "outputPath": "/Users/andreisteven/MarikinAlert.Web/MarikinAlert.ModelTrainer/obj/",
+      "projectPath": "C:\\Users\\jajai\\Source\\Repos\\MarikinAlert\\MarikinAlert.ModelTrainer\\MarikinAlert.ModelTrainer.csproj",
+      "packagesPath": "C:\\Users\\jajai\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jajai\\Source\\Repos\\MarikinAlert\\MarikinAlert.ModelTrainer\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/andreisteven/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\jajai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -751,7 +758,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -778,7 +786,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.414/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

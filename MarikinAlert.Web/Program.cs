@@ -39,6 +39,19 @@ builder.Services.AddScoped<ITextScanner>(provider =>
 
 builder.Services.AddScoped<IDisasterTriageService, TriageService>();
 
+builder.Services.AddHttpContextAccessor();
+
+// 1. Add Memory Cache (Session requires a place to store data)
+builder.Services.AddDistributedMemoryCache();
+
+// 2. Add Session Service
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Log out after 30 mins inactive
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -55,8 +68,19 @@ app.UseRouting();
 app.UseAuthentication(); 
 app.UseAuthorization();
 
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+// ---> ADD THIS LINE HERE <---
+app.UseSession();
+// ----------------------------
+
+app.UseAuthorization();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Reports}/{action=Create}/{id?}");
 
 app.Run();
