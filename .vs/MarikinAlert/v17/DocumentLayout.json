@@ -56,7 +56,7 @@
               "RelativeDocumentMoniker": "MarikinAlert.Web\\Views\\Admin\\Dashboard.cshtml",
               "ToolTip": "C:\\Users\\jajai\\source\\repos\\MarikinAlert\\MarikinAlert.Web\\Views\\Admin\\Dashboard.cshtml",
               "RelativeToolTip": "MarikinAlert.Web\\Views\\Admin\\Dashboard.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-01-17T00:50:21.183Z",
               "EditorCaption": ""
@@ -71,8 +71,7 @@
               "RelativeToolTip": "MarikinAlert.Web\\Data\\AppDbContext.cs",
               "ViewState": "AgIAAF4AAAAAAAAAAAAuwIcAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-17T00:42:32.243Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-17T00:42:32.243Z"
             },
             {
               "$type": "Document",

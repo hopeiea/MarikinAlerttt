@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\jajai\\source\\repos\\MarikinAlert\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|c:\\users\\jajai\\source\\repos\\marikinalert\\marikinalert.web\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|solutionrelative:marikinalert.web\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|c:\\users\\jajai\\source\\repos\\marikinalert\\marikinalert.web\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|solutionrelative:marikinalert.web\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|c:\\users\\jajai\\source\\repos\\marikinalert\\marikinalert.web\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|solutionrelative:marikinalert.web\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|c:\\users\\jajai\\source\\repos\\marikinalert\\marikinalert.web\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|solutionrelative:marikinalert.web\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AB87F1EA-0E5C-43F8-B111-74D4EA916A5E}|MarikinAlert.Web\\MarikinAlert.Web.csproj|c:\\users\\jajai\\source\\repos\\marikinalert\\marikinalert.web\\views\\admin\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -46,32 +46,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Dashboard.cshtml",
               "DocumentMoniker": "C:\\Users\\jajai\\source\\repos\\MarikinAlert\\MarikinAlert.Web\\Views\\Admin\\Dashboard.cshtml",
               "RelativeDocumentMoniker": "MarikinAlert.Web\\Views\\Admin\\Dashboard.cshtml",
               "ToolTip": "C:\\Users\\jajai\\source\\repos\\MarikinAlert\\MarikinAlert.Web\\Views\\Admin\\Dashboard.cshtml",
               "RelativeToolTip": "MarikinAlert.Web\\Views\\Admin\\Dashboard.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-17T00:50:21.183Z"
+              "WhenOpened": "2026-01-17T00:50:21.183Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\jajai\\source\\repos\\MarikinAlert\\MarikinAlert.Web\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "MarikinAlert.Web\\Data\\AppDbContext.cs",
               "ToolTip": "C:\\Users\\jajai\\source\\repos\\MarikinAlert\\MarikinAlert.Web\\Data\\AppDbContext.cs",
               "RelativeToolTip": "MarikinAlert.Web\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAuwHQAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAuwIcAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-17T00:42:32.243Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-17T00:42:32.243Z"
             },
             {
               "$type": "Document",
@@ -111,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\jajai\\source\\repos\\MarikinAlert\\MarikinAlert.Web\\Program.cs",
               "RelativeDocumentMoniker": "MarikinAlert.Web\\Program.cs",
@@ -147,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\Users\\jajai\\source\\repos\\MarikinAlert\\MarikinAlert.Web\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "MarikinAlert.Web\\Controllers\\AdminController.cs",
